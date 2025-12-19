@@ -1,13 +1,557 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Family Tree</title>
+  <title>Family Tree NYC</title>
+  <meta name="description" content="Rooted in Love, Growing for Generations. Plant a living promise for your future family in Central Park with Family Tree NYC.">
+
+  <!-- Icons - replace with your actual files -->
+  <link rel="icon" href="/icons/MMP100_Final_FamilyTree_logo.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/icons/MMP100_Final_FamilyTree_logo.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <style>
+    :root{
+      --page-bg: #F5EFE6; /* beige page background */
+      --surface: #FFFFFF; /* header/footer */
+      --accent: #2B7A4B;  /* forest green */
+      --text: #222222;    /* main text */
+      --muted: #6B6B60;   /* muted text */
+      --card-shadow: rgba(34,34,34,0.06);
+      --radius: 10px;
+      --max-width: 1100px;
+      --fade-duration: 600ms;
+    }
+
+    /* Base */
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--text);background:var(--page-bg);-webkit-font-smoothing:antialiased;}
+    a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+
+    /* Header */
+    header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid rgba(34,34,34,0.06);z-index:1000;box-shadow:0 2px 8px var(--card-shadow)}
+    .container{max-width:var(--max-width);margin:0 auto;padding:16px 24px}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand-wrap{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:44px;height:44px;display:inline-block;object-fit:contain}
+    .brand-text{font-weight:700;font-size:18px;color:var(--text)}
+
+    /* Desktop nav */
+    .nav-desktop{display:flex;gap:12px;align-items:center}
+    .nav-desktop a{padding:8px 10px;border-radius:8px;color:var(--muted);font-size:15px}
+    .nav-desktop a:hover{background:rgba(43,122,75,0.06);color:var(--accent)}
+
+    /* Hamburger (animated) */
+    .hamburger{display:none;width:44px;height:44px;border-radius:8px;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(34,34,34,0.04);background:transparent;transition:background 160ms ease}
+    .hamburger:focus{outline:2px solid rgba(43,122,75,0.18)}
+    .hamburger .bars{position:relative;width:20px;height:14px}
+    .hamburger .bars span{position:absolute;left:0;right:0;height:2px;background:var(--text);display:block;transition:transform 220ms ease,top 220ms ease,opacity 220ms ease}
+    .hamburger .bars span:nth-child(1){top:0}
+    .hamburger .bars span:nth-child(2){top:6px}
+    .hamburger .bars span:nth-child(3){top:12px}
+    .hamburger.open .bars span:nth-child(1){top:6px;transform:rotate(45deg)}
+    .hamburger.open .bars span:nth-child(2){opacity:0}
+    .hamburger.open .bars span:nth-child(3){top:6px;transform:rotate(-45deg)}
+
+    /* Mobile drawer */
+    .mobile-drawer{position:fixed;top:0;right:-100%;width:86vw;max-width:360px;height:100vh;background:var(--surface);box-shadow:-20px 0 40px rgba(0,0,0,0.12);transition:right 320ms cubic-bezier(.2,.9,.2,1);z-index:1100;padding:24px;display:flex;flex-direction:column}
+    .mobile-drawer.open{right:0}
+    .drawer-close{margin-left:auto;padding:8px;border-radius:8px;border:1px solid #eee;background:#fafafa;cursor:pointer}
+    .drawer a{display:block;padding:12px 8px;border-radius:8px;color:var(--text);font-weight:600}
+    .drawer a:hover{background:#f3f7f4}
+    .drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);opacity:0;visibility:hidden;transition:opacity 200ms ease;z-index:1050}
+    .drawer-backdrop.show{opacity:1;visibility:visible}
+
+    /* Hero */
+    .hero{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:56px 0}
+    .hero .left{flex:1;min-width:260px}
+    .hero h1{font-size:36px;margin:0 0 12px 0;line-height:1.05;color:var(--text)}
+    .hero p{margin:0 0 18px 0;color:var(--muted);font-size:16px}
+    .subscribe{display:flex;gap:8px;max-width:520px}
+    .subscribe input[type="email"]{flex:1;padding:12px;border:1px solid rgba(34,34,34,0.06);border-radius:10px;font-size:15px;background:#fff}
+    .subscribe button{background:var(--accent);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+    .subscribe small{display:block;margin-top:8px;color:var(--muted);font-size:13px}
+
+    /* Sections */
+    section{padding:48px 0;border-top:1px solid rgba(34,34,34,0.04)}
+    h2{font-size:24px;margin:0 0 12px 0}
+    .lead{color:var(--muted);margin-bottom:18px}
+    .content{max-width:900px;line-height:1.7;color:var(--text)}
+
+    /* FAQ */
+    .faq-item{margin-bottom:14px}
+    .faq-q{font-weight:600}
+    .faq-a{color:var(--muted);margin-top:6px}
+
+    /* Footer */
+    footer{background:var(--surface);border-top:1px solid rgba(34,34,34,0.06);box-shadow:0 -2px 8px var(--card-shadow);padding:28px 0;margin-top:36px}
+    .footer-inner{max-width:var(--max-width);margin:0 auto;padding:8px 20px;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .footer-logo{width:72px;height:auto;display:block}
+    .back-top{display:inline-block;padding:10px 14px;border-radius:10px;background:#fff;border:1px solid rgba(34,34,34,0.06);cursor:pointer}
+
+    /* Loader */
+    #loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,11,11,0.95);z-index:9999;transition:opacity var(--fade-duration) ease,visibility var(--fade-duration) ease;opacity:1;visibility:visible}
+    #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+    #loader video{max-width:80vw;max-height:80vh;width:auto;height:auto;display:block;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    #loader .skip{position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.12);padding:8px 12px;border-radius:8px;font-size:14px;backdrop-filter:blur(4px);cursor:pointer}
+
+    /* Cookie banner */
+    .cookie-banner{position:fixed;left:16px;right:16px;bottom:20px;background:var(--surface);border:1px solid rgba(34,34,34,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.08);padding:16px;border-radius:12px;display:flex;gap:12px;align-items:center;z-index:12000;max-width:980px;margin:0 auto}
+    .cookie-banner .text{flex:1;color:var(--text);font-size:14px;line-height:1.4}
+    .cookie-banner .actions{display:flex;gap:8px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:1px solid rgba(34,34,34,0.06);background:#fff;cursor:pointer;font-weight:700}
+    .btn.primary{background:var(--accent);color:#fff;border:none}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(43,122,75,0.12)}
+
+    /* Preferences modal */
+    .cookie-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:13000}
+    .cookie-modal{background:var(--surface);width:92%;max-width:720px;border-radius:12px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+    .cookie-modal h3{margin:0 0 8px 0;font-size:18px}
+    .cookie-category{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid rgba(34,34,34,0.04)}
+    .cookie-category:first-of-type{border-top:0}
+    .toggle input[type="checkbox"]{width:18px;height:18px}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .nav-desktop{display:none}
+      .hamburger{display:flex}
+      .hero{flex-direction:column;align-items:flex-start}
+      .hero h1{font-size:28px}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none!important;animation:none!important}
+    }
+  </style>
 </head>
 <body>
-  <h1>Family Tree</h1>
-  <p>このページは GitHub Pages で公開されています。</p>
-  <p>コンテンツを追加するには index.html を編集してください。</p>
+  <!-- Loader -->
+  <div id="loader" role="status" aria-label="Loading site">
+    <img class="static-frame" src="MMP100_Final_FamilyTree_logo_2.png" alt="Family Tree logo" style="display:none">
+    <video id="logoVideo" autoplay muted playsinline preload="auto" aria-hidden="true">
+      <source src="MMP100_Final_FamilyTree_logo_video_2.webm" type="video/webm">
+      <source src="MP100_Final_FamilyTree_logo_video.mp4" type="video/mp4">
+    </video>
+    <button class="skip" id="skipBtn" aria-label="Skip loading">Skip</button>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-inner" role="navigation" aria-label="Main navigation">
+      <div class="brand-wrap">
+        <a href="#home" style="display:flex;align-items:center;gap:12px">
+          <img src="MMP100_Final_FamilyTree_logo.png" alt="Family Tree NYC logo" class="brand-logo">
+          <div class="brand-text">Family Tree NYC</div>
+        </a>
+      </div>
+
+      <nav class="nav-desktop" aria-label="Primary">
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#mission">Our Mission</a>
+        <a href="#goals">Our Goals</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <!-- Animated hamburger -->
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false">
+        <span class="bars" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile drawer and overlay -->
+  <div id="drawerBackdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  <aside id="mobileDrawer" class="mobile-drawer" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle" aria-hidden="true">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="MMP100_Final_FamilyTree_logo.png" alt="" style="width:40px;height:40px">
+      <div style="font-weight:700">Family Tree NYC</div>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">Close</button>
+    </div>
+    <nav class="drawer" aria-label="Mobile primary navigation">
+      <a href="#home" class="drawer-link">Home</a>
+      <a href="#about" class="drawer-link">About Us</a>
+      <a href="#mission" class="drawer-link">Our Mission</a>
+      <a href="#goals" class="drawer-link">Our Goals</a>
+      <a href="#faq" class="drawer-link">FAQ</a>
+    </nav>
+    <div style="margin-top:auto;color:var(--muted);font-size:13px">Rooted in Love, Growing for Generations</div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+    <!-- Home -->
+    <section id="home" class="container hero" aria-labelledby="home-heading">
+      <div class="left">
+        <h1 id="home-heading">Rooted in Love, Growing for Generations</h1>
+        <p class="lead">Plant a living promise for your future family in Central Park. Dedicate a tree, record your story, and join a community that cares for the city and the generations to come.</p>
+
+        <div style="max-width:520px">
+          <p style="color:var(--muted);margin:0 0 12px 0">Get event updates and stories about planted trees</p>
+        </div>
+      </div>
+
+      <div style="flex:0 0 320px;display:flex;align-items:center;justify-content:center">
+        <img src="MMP100_Final_FamilyTree_logo_2.png" alt="Family Tree logo mark" style="width:220px;height:auto;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08)">
+      </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="about" class="container" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Us</h2>
+      <p class="lead">Family Tree NYC invites families to plant living dedications in Central Park as a promise to future generations. Each planting event centers on choosing a tree that represents a family’s hopes for descendants then caring for that tree together over time.</p>
+      <div class="content">
+        <p>Each planting event combines hands on planting with short storytelling sessions where participants record a dedication or family message for the tree’s digital profile. Volunteers learn practical skills such as soil preparation mulching and seasonal care so each tree thrives as a long term marker of family memory. After planting we organize scheduled stewardship shifts and annual checkups so families can return celebrate milestones and update their tree’s story as children grow. The Family Tree Map documents every planting with photos species data planting date and the family dedication creating an accessible archive for descendants and distant relatives.</p>
+        <p>While the project foregrounds intergenerational connection and legacy it also advances urban resilience by prioritizing native climate resilient species and habitat improvements. Partnerships with the Central Park Conservancy and local arborists ensure ecological best practices. By combining personal dedication with ongoing stewardship Family Tree NYC turns private hopes for future family life into a shared living legacy in the heart of the city.</p>
+      </div>
+    </section>
+
+    <!-- Our Mission -->
+    <section id="mission" class="container" aria-labelledby="mission-heading">
+      <h2 id="mission-heading">Our Mission</h2>
+      <p class="lead">Family Tree NYC roots personal memory in public green space to strengthen community and urban ecology.</p>
+      <div class="content">
+        <p>We help families plant trees in Central Park as living dedications that connect present intentions with future generations. Each tree is both a personal marker and a communal asset carrying a family’s message while contributing to urban canopy habitat and climate resilience. Education and storytelling are core to our mission we teach practical stewardship skills host intergenerational programs that encourage dialogue between elders and children and preserve dedications in a public digital archive so descendants can discover their family’s commitment.</p>
+        <p>We prioritize species and planting methods that support biodiversity and long term survival working closely with park authorities and arborists to balance personal meaning with ecological benefit. By centering the Family Tree concept we aim to foster a culture of care where planting for future family life strengthens community bonds and leaves a healthier more connected city for those who come after us.</p>
+      </div>
+    </section>
+
+    <!-- Our Goals -->
+    <section id="goals" class="container" aria-labelledby="goals-heading">
+      <h2 id="goals-heading">Our Goals</h2>
+      <div class="content">
+        <p>Plant 100 commemorative trees annually establish a decade long Family Tree Corridor in Central Park and maintain a public archive that preserves family dedications documents growth and ecological benefits to connect families and strengthen urban biodiversity.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="container" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">FAQ</h2>
+      <div class="content">
+        <div class="faq-item">
+          <div class="faq-q">How does dedicating a tree honor future family members?</div>
+          <div class="faq-a">Each tree includes a recorded dedication and digital profile so descendants can learn who planted it why and how the tree has grown over time.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Can I choose the tree’s exact location and species?</div>
+          <div class="faq-a">We accept preferences but final placement and species selection follow park management and arborist guidance to ensure ecological fit and long term care.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Who maintains the tree after planting?</div>
+          <div class="faq-a">Family Tree NYC coordinates volunteer stewardship for the early years and partners with Central Park Conservancy for long term maintenance and monitoring.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What environmental benefits come from these plantings?</div>
+          <div class="faq-a">Plantings focus on native climate resilient species to increase habitat reduce urban heat improve stormwater absorption and sequester carbon while honoring family legacy.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What if my family cannot return to care for the tree?</div>
+          <div class="faq-a">We document each tree’s needs and schedule volunteer shifts; if a family cannot continue stewardship is shared by the community and park partners to ensure the tree’s survival.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emailing list (moved below FAQ) -->
+    <section id="subscribe" class="container" aria-labelledby="subscribe-heading">
+      <h2 id="subscribe-heading">Join Our Mailing List</h2>
+      <p class="lead">Get event invitations, planting stories, and stewardship tips delivered to your inbox. We respect your privacy and only send occasional updates.</p>
+      <div class="content" style="max-width:640px">
+        <!-- Replace action with your mailing service endpoint -->
+        <form class="subscribe" action="#" method="post" aria-label="Email subscription form">
+          <label for="email" style="display:block;margin-bottom:8px;font-weight:600">Email address</label>
+          <input id="email" type="email" name="email" placeholder="you@example.com" required aria-label="Email address" style="width:100%;padding:12px;border:1px solid rgba(34,34,34,0.06);border-radius:10px;background:#fff;margin-bottom:12px">
+          <div style="display:flex;gap:10px;align-items:center">
+            <button type="submit" class="btn primary">Subscribe</button>
+            <div style="color:var(--muted);font-size:13px">You can unsubscribe at any time.</div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <img src="MMP100_Final_FamilyTree_logo.png" alt="Family Tree NYC logo" class="footer-logo">
+      <div style="color:var(--muted);font-size:14px">© <strong>Family Tree NYC</strong> — Rooted in Love, Growing for Generations</div>
+      <button class="back-top" id="backTop">Back to top</button>
+    </div>
+  </footer>
+
+  <!-- Cookie Consent UI -->
+  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="text">
+      <strong>Rooted in Love, Growing for Generations</strong>
+      <div style="margin-top:6px">We use cookies to improve site experience and to support our mission. Manage your preferences or accept all cookies.</div>
+    </div>
+    <div class="actions">
+      <button id="openPrefs" class="btn ghost" aria-haspopup="dialog">Preferences</button>
+      <button id="rejectAll" class="btn" title="Reject non essential cookies">Reject all</button>
+      <button id="acceptAll" class="btn primary">Accept all</button>
+    </div>
+  </div>
+
+  <div id="cookieModalBackdrop" class="cookie-modal-backdrop" role="presentation" aria-hidden="true">
+    <div class="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle">
+      <h3 id="cookieModalTitle">Cookie Preferences</h3>
+      <p>Choose which cookies you allow. Necessary cookies are required for site functionality and cannot be disabled.</p>
+
+      <div class="cookie-category">
+        <div>
+          <div style="font-weight:700">Necessary cookies</div>
+          <div style="color:var(--muted);font-size:13px">Required for site operation</div>
+        </div>
+        <div class="toggle">
+          <input type="checkbox" id="cookieNecessary" checked disabled aria-disabled="true">
+        </div>
+      </div>
+
+      <div class="cookie-category">
+        <div>
+          <div style="font-weight:700">Analytics cookies</div>
+          <div style="color:var(--muted);font-size:13px">Help us understand site usage</div>
+        </div>
+        <div class="toggle">
+          <input type="checkbox" id="cookieAnalytics" aria-checked="false">
+        </div>
+      </div>
+
+      <div class="cookie-category">
+        <div>
+          <div style="font-weight:700">Marketing cookies</div>
+          <div style="color:var(--muted);font-size:13px">Used for promotions and social features</div>
+        </div>
+        <div class="toggle">
+          <input type="checkbox" id="cookieMarketing" aria-checked="false">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:18px">
+        <button id="modalCancel" class="btn">Cancel</button>
+        <button id="modalReject" class="btn" title="Reject non essential cookies">Reject non essential</button>
+        <button id="modalSave" class="btn primary">Save preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      /* Loader: ensure video plays once fully and minimum display time */
+      const loader = document.getElementById('loader');
+      const video = document.getElementById('logoVideo');
+      const skip = document.getElementById('skipBtn');
+
+      const MIN_DISPLAY_MS = 2500; // minimum visible time
+      const MAX_WAIT_MS = 8000;    // safety timeout
+
+      function hideLoader() {
+        if (!loader || loader.classList.contains('hide')) return;
+        loader.classList.add('hide');
+        setTimeout(()=> loader.remove(), 800);
+      }
+
+      // Ensure single play
+      try { video.loop = false; } catch(e){}
+
+      function waitForVideoPlayOnce() {
+        return new Promise((resolve) => {
+          function startPlayback() {
+            try { video.currentTime = 0; } catch(e){}
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.then === 'function') {
+              playPromise.then(()=> {
+                // playback started
+              }).catch(()=> {
+                // autoplay blocked
+                resolve('play-blocked');
+              });
+            }
+          }
+
+          function onEnded() {
+            cleanup();
+            resolve('ended');
+          }
+
+          function onLoadedMeta() {
+            startPlayback();
+          }
+
+          function cleanup() {
+            video.removeEventListener('ended', onEnded);
+            video.removeEventListener('loadedmetadata', onLoadedMeta);
+          }
+
+          video.addEventListener('ended', onEnded);
+          if (video.readyState >= 1) {
+            startPlayback();
+          } else {
+            video.addEventListener('loadedmetadata', onLoadedMeta);
+          }
+
+          setTimeout(()=> {
+            cleanup();
+            resolve('timeout');
+          }, MAX_WAIT_MS);
+        });
+      }
+
+      const pageLoadPromise = new Promise((resolve) => {
+        if (document.readyState === 'complete') return resolve();
+        window.addEventListener('load', function onLoad(){
+          window.removeEventListener('load', onLoad);
+          resolve();
+        });
+      });
+
+      function minDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+      (async function orchestrateLoader(){
+        const videoResultPromise = waitForVideoPlayOnce();
+        const minDelayPromise = minDelay(MIN_DISPLAY_MS);
+        await Promise.all([pageLoadPromise, videoResultPromise, minDelayPromise]);
+        hideLoader();
+      })();
+
+      skip.addEventListener('click', ()=> { hideLoader(); });
+      video.addEventListener('error', ()=> { hideLoader(); });
+      setTimeout(()=> { hideLoader(); }, MAX_WAIT_MS + 2000);
+      skip.addEventListener('keydown', (e)=> { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skip.click(); } });
+
+      /* Smooth scroll for nav links */
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); history.replaceState(null,'', '#'+id); }
+          closeDrawer();
+        });
+      });
+
+      /* Back to top */
+      document.getElementById('backTop').addEventListener('click', ()=>{
+        window.scrollTo({top:0,behavior:'smooth'});
+        history.replaceState(null,'', '#home');
+      });
+
+      /* Mobile drawer with focus trap and animated hamburger */
+      const hamburger = document.getElementById('hamburger');
+      const mobileDrawer = document.getElementById('mobileDrawer');
+      const drawerBackdrop = document.getElementById('drawerBackdrop');
+      const drawerClose = document.getElementById('drawerClose');
+      const drawerLinks = Array.from(document.querySelectorAll('.drawer-link'));
+      const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
+
+      function openDrawer(){
+        mobileDrawer.classList.add('open');
+        hamburger.classList.add('open');
+        drawerBackdrop.classList.add('show');
+        hamburger.setAttribute('aria-expanded','true');
+        mobileDrawer.setAttribute('aria-hidden','false');
+        drawerBackdrop.setAttribute('aria-hidden','false');
+        mobileDrawer._previousFocus = document.activeElement;
+        const focusables = mobileDrawer.querySelectorAll(FOCUSABLE_SELECTOR);
+        if(focusables.length) focusables[0].focus();
+        document.addEventListener('keydown', trapFocus);
+      }
+
+      function closeDrawer(){
+        mobileDrawer.classList.remove('open');
+        hamburger.classList.remove('open');
+        drawerBackdrop.classList.remove('show');
+        hamburger.setAttribute('aria-expanded','false');
+        mobileDrawer.setAttribute('aria-hidden','true');
+        drawerBackdrop.setAttribute('aria-hidden','true');
+        if(mobileDrawer._previousFocus) mobileDrawer._previousFocus.focus();
+        document.removeEventListener('keydown', trapFocus);
+      }
+
+      function trapFocus(e){
+        if(e.key !== 'Tab') return;
+        const focusables = Array.from(mobileDrawer.querySelectorAll(FOCUSABLE_SELECTOR)).filter(el => el.offsetParent !== null);
+        if(focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if(e.shiftKey){
+          if(document.activeElement === first){ e.preventDefault(); last.focus(); }
+        } else {
+          if(document.activeElement === last){ e.preventDefault(); first.focus(); }
+        }
+      }
+
+      hamburger.addEventListener('click', ()=>{
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        if(expanded) closeDrawer(); else openDrawer();
+      });
+      drawerClose.addEventListener('click', closeDrawer);
+      drawerBackdrop.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && mobileDrawer.classList.contains('open')) closeDrawer(); });
+      drawerLinks.forEach(link=> link.addEventListener('click', ()=> setTimeout(()=> closeDrawer(), 150)));
+      window.addEventListener('resize', ()=> { if(window.innerWidth > 900 && mobileDrawer.classList.contains('open')) closeDrawer(); });
+
+      /* Email form placeholder */
+      document.querySelectorAll('form[action="#"]').forEach(form=>{
+        form.addEventListener('submit', (e)=>{
+          e.preventDefault();
+          const email = form.querySelector('input[type="email"]').value;
+          alert('Thanks for subscribing ' + email);
+          form.reset();
+        });
+      });
+
+      /* Cookie consent */
+      const BANNER_KEY = 'ftnyc_cookie_consent_v1';
+      const defaultConsent = { necessary:true, analytics:false, marketing:false, timestamp:null };
+      const banner = document.getElementById('cookieBanner');
+      const backdrop = document.getElementById('cookieModalBackdrop');
+      const openPrefs = document.getElementById('openPrefs');
+      const acceptAll = document.getElementById('acceptAll');
+      const rejectAll = document.getElementById('rejectAll');
+      const modalSave = document.getElementById('modalSave');
+      const modalReject = document.getElementById('modalReject');
+      const modalCancel = document.getElementById('modalCancel');
+      const chkAnalytics = document.getElementById('cookieAnalytics');
+      const chkMarketing = document.getElementById('cookieMarketing');
+
+      function readConsent(){ try{ const raw = localStorage.getItem(BANNER_KEY); if(!raw) return null; return JSON.parse(raw); }catch(e){ return null; } }
+      function saveConsent(obj){ obj.timestamp = new Date().toISOString(); localStorage.setItem(BANNER_KEY, JSON.stringify(obj)); applyConsent(obj); hideBanner(); }
+      function hideBanner(){ if(!banner) return; banner.style.display = 'none'; }
+      function showBanner(){ if(!banner) return; banner.style.display = 'flex'; }
+      function showModal(){ backdrop.style.display = 'flex'; backdrop.setAttribute('aria-hidden','false'); chkAnalytics.focus(); }
+      function hideModal(){ backdrop.style.display = 'none'; backdrop.setAttribute('aria-hidden','true'); openPrefs.focus(); }
+      function applyConsent(consent){
+        if(consent.analytics){ if(typeof initializeAnalytics === 'function') initializeAnalytics(); } else { if(typeof disableAnalytics === 'function') disableAnalytics(); }
+        if(consent.marketing){ if(typeof initializeMarketing === 'function') initializeMarketing(); } else { if(typeof disableMarketing === 'function') disableMarketing(); }
+      }
+      window.getCookieConsent = function(){ return readConsent() || defaultConsent; };
+
+      const stored = readConsent();
+      if(stored){ hideBanner(); applyConsent(stored); } else { showBanner(); }
+
+      acceptAll.addEventListener('click', ()=> { const c = { necessary:true, analytics:true, marketing:true }; saveConsent(c); });
+      rejectAll.addEventListener('click', ()=> { const c = { necessary:true, analytics:false, marketing:false }; saveConsent(c); });
+      openPrefs.addEventListener('click', ()=> { const cur = readConsent() || defaultConsent; chkAnalytics.checked = !!cur.analytics; chkMarketing.checked = !!cur.marketing; showModal(); });
+      modalSave.addEventListener('click', ()=> { const c = { necessary:true, analytics:!!chkAnalytics.checked, marketing:!!chkMarketing.checked }; saveConsent(c); hideModal(); });
+      modalReject.addEventListener('click', ()=> { const c = { necessary:true, analytics:false, marketing:false }; saveConsent(c); hideModal(); });
+      modalCancel.addEventListener('click', ()=> hideModal());
+      backdrop.addEventListener('click', (e)=> { if(e.target === backdrop) hideModal(); });
+      document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && backdrop.style.display === 'flex') hideModal(); });
+
+      // Placeholder analytics/marketing init functions
+      window.initializeAnalytics = function(){ if(window._ftnyc_analytics_loaded) return; window._ftnyc_analytics_loaded = true; console.log('Analytics initialized'); };
+      window.disableAnalytics = function(){ console.log('Analytics disabled'); };
+      window.initializeMarketing = function(){ if(window._ftnyc_marketing_loaded) return; window._ftnyc_marketing_loaded = true; console.log('Marketing initialized'); };
+      window.disableMarketing = function(){ console.log('Marketing disabled'); };
+    })();
+  </script>
 </body>
 </html>
